@@ -1,0 +1,12 @@
+name: ""
+manufacturer: ""
+model: ""
+labels:
+  - "device-SAK"
+description: "Device SwissArmyKnife"
+
+deviceResources:
+
+deviceCommands:
+
+coreCommands:

@@ -21,6 +21,9 @@ type Driver struct {
 // Initialize performs protocol-specific initialization for the device
 // service.
 func (s *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues, deviceCh chan<- []dsModels.DiscoveredDevice) error {
+	s.lc = lc
+	s.asyncCh = asyncCh
+
 	return nil
 }
 
@@ -45,7 +48,7 @@ func (s *Driver) HandleWriteCommands(deviceName string, protocols map[string]con
 // for closing any in-use channels, including the channel used to send async
 // readings (if supported).
 func (s *Driver) Stop(force bool) error {
-	// Then Logging Client might not be initialized
+	s.lc.Debug(fmt.Sprintf("Driver.Stop called: force=%v", force))
 	return nil
 }
 
