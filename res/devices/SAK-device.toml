@@ -1,0 +1,6 @@
+[[DeviceList]]
+  Name = "SAK"
+  ProfileName = "SAK"
+  Description = "Example of SAK Device"
+  Labels = [ "device-sak" ]
+  [DeviceList.Protocols]

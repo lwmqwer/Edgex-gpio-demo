@@ -1,12 +1,20 @@
 [Writable]
 LogLevel = "INFO"
+  # Example InsecureSecrets configuration that simulates SecretStore for when EDGEX_SECURITY_SECRET_STORE=false
+  # InsecureSecrets are required for when Redis is used for message bus
+  [Writable.InsecureSecrets]
+    [Writable.InsecureSecrets.DB]
+    path = "redisdb"
+      [Writable.InsecureSecrets.DB.Secrets]
+      username = ""
+      password = ""
 
 [Service]
 BootTimeout = 30000
 CheckInterval = "10s"
 Host = "localhost"
 ServerBindAddr = ""  # blank value defaults to Service.Host value
-Port = 41000
+Port = 59100
 Protocol = "http"
 StartupMsg = "device SAK started"
 Timeout = 5000
@@ -22,33 +30,27 @@ Type = "consul"
 
 
 [Clients]
-  [Clients.Data]
+  [Clients.core-data]
   Protocol = "http"
   Host = "localhost"
-  Port = 48080
+  Port = 59880
 
-  [Clients.Metadata]
+  [Clients.core-metadata]
   Protocol = "http"
   Host = "localhost"
-  Port = 48081
-
-[Driver]
+  Port = 59881
 
 [Device]
   DataTransform = true
-  InitCmd = ""
-  InitCmdArgs = ""
   MaxCmdOps = 128
   MaxCmdValueLen = 256
-  RemoveCmd = ""
-  RemoveCmdArgs = ""
-  ProfilesDir = "./res"
+  ProfilesDir = "./res/profiles"
+  DevicesDir = "./res/devices"
   UpdateLastConnected = false
+  AsyncBufferSize = 1
+  EnableAsyncReadings = true
+  Labels = []
+  [Device.Discovery]
+    Enabled = false
+    Interval = "30s"
 
-# Pre-define Devices
-[[DeviceList]]
-  Name = ""
-  Profile = ""
-  Description = ""
-  Labels = [""]
-  [DeviceList.Protocols]

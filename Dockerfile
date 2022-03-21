@@ -34,7 +34,7 @@ COPY driver/ driver/
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -o device-SAK main.go version.go
 
 # Next image - Copy built Go binary into new workspace
-FROM alpine:3.14
+FROM --platform=$TARGETPLATFORM alpine:3.14
 
 ENV APP_PORT=41000
 #expose command data port

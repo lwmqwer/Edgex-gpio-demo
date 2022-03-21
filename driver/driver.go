@@ -7,10 +7,12 @@ package driver
 
 import (
 	"fmt"
+	"time"
 
 	dsModels "github.com/edgexfoundry/device-sdk-go/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/clients/logger"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/models"
+	sakshat "github.com/superfashi/SAKS-SDK-GO"
 )
 
 type Driver struct {
@@ -29,6 +31,21 @@ func (s *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.As
 
 // HandleReadCommands triggers a protocol Read operation for the specified device.
 func (s *Driver) HandleReadCommands(deviceName string, protocols map[string]contract.ProtocolProperties, reqs []dsModels.CommandRequest) (res []*dsModels.CommandValue, err error) {
+	s.lc.Debug(fmt.Sprintf("protocols: %v", protocols))
+
+	now := time.Now().UnixNano()
+
+	for i, req := range reqs {
+		s.lc.Debug(fmt.Sprintf("request: %d resource: %v attributes: %v", i, req.DeviceResourceName, req.Attributes))
+		switch req.DeviceResourceName {
+		case "TemperatureSensor":
+			{
+				value := sakshat.Ds18b20.Temperature(0)
+				cv, _ := dsModels.NewFloat64Value(reqs[0].DeviceResourceName, now, value)
+				res = append(res, cv)
+			}
+		}
+	}
 
 	return res, nil
 }
@@ -40,6 +57,35 @@ func (s *Driver) HandleReadCommands(deviceName string, protocols map[string]cont
 func (s *Driver) HandleWriteCommands(deviceName string, protocols map[string]contract.ProtocolProperties, reqs []dsModels.CommandRequest,
 	params []*dsModels.CommandValue) error {
 
+	s.lc.Debug(fmt.Sprintf("protocols: %v", protocols))
+
+	for _, param := range params {
+		s.lc.Debug(fmt.Sprintf("param: %v", param))
+		switch param.DeviceResourceName {
+		case "DigitalDisplay":
+			{
+				str, err := param.StringValue()
+				if err != nil {
+					return err
+				}
+				sakshat.DigitalDisplay.Show(str)
+			}
+		case "LED":
+			{
+				mask, err := param.Uint8Value()
+				if err != nil {
+					return err
+				}
+				for i := 0; i < 8; i++ {
+					if mask&(1<<i) != 0 {
+						sakshat.LEDRow.OnForIndex(uint(i))
+					} else {
+						sakshat.LEDRow.OffForIndex(uint(i))
+					}
+				}
+			}
+		}
+	}
 	return nil
 }
 
@@ -49,6 +95,7 @@ func (s *Driver) HandleWriteCommands(deviceName string, protocols map[string]con
 // readings (if supported).
 func (s *Driver) Stop(force bool) error {
 	s.lc.Debug(fmt.Sprintf("Driver.Stop called: force=%v", force))
+	sakshat.Clean()
 	return nil
 }
 

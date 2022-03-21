@@ -6,6 +6,8 @@ TAG ?= v0.1.0
 
 IMG ?= ${STAGING_REGISTRY}/${IMAGE_NAME}:${TAG}
 
+all: build
+
 fmt: ## Run go fmt against code.
 	go fmt ./...
 

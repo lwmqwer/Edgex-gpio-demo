@@ -1,0 +1,56 @@
+apiVersion: "v2"
+name: "SAK-Device"
+manufacturer: "NXEZ"
+model: "SAKS v2.1"
+labels:
+  - "device-SAK"
+description: "Example of SAK device"
+
+deviceResources:
+  -
+    name: "TemperatureSensor"
+    isHidden: false
+    description: "SAK temperature sensor"
+    properties:
+        valueType: "Float64"
+        readWrite: "R"
+  -
+    name: "DigitalDisplay"
+    isHidden: false
+    description: "SAK digital display."
+    properties:
+        valueType: "String"
+        readWrite: "W"
+  -
+    name: "LED"
+    isHidden: true
+    description: "SAK LED"
+    properties:
+        valueType: "Uint8"
+        readWrite: "W"
+  -
+
+deviceCommands:
+  -
+    name: "Temperature"
+    isHidden: false
+    readWrite: "R"
+    resourceOperations:
+      - { deviceResource: "TemperatureSensor"}
+  -
+    name: "DigitalDisplay"
+    isHidden: false
+    readWrite: "W"
+    resourceOperations:
+      - { deviceResource: "DigitalDisplay"}
+  -
+    name: "LED"
+    isHidden: false
+    readWrite: "W"
+    resourceOperations:
+      - { deviceResource: "LED"}
+
+
+
+
+
