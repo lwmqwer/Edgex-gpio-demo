@@ -36,7 +36,7 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -o device-SAK ma
 # Next image - Copy built Go binary into new workspace
 FROM --platform=$TARGETPLATFORM alpine:3.14
 
-ENV APP_PORT=41000
+ENV APP_PORT=59100
 #expose command data port
 EXPOSE $APP_PORT
 
