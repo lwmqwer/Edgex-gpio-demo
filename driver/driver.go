@@ -12,7 +12,7 @@ import (
 	dsModels "github.com/edgexfoundry/device-sdk-go/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/clients/logger"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/models"
-	sakshat "github.com/superfashi/SAKS-SDK-GO"
+	sakshat "github.com/lwmqwer/SAKS-SDK-GO"
 )
 
 type Driver struct {
