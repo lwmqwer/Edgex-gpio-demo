@@ -51,7 +51,7 @@ EXPOSE $APP_PORT
 
 WORKDIR /
 COPY --from=builder /workspace/device-SAK .
-COPY /res/ /
+COPY /res /res
 
 ENTRYPOINT ["/device-SAK"]
 CMD ["-cp=consul.http://edgex-core-consul:8500", "--registry", "--confdir=/res"]
