@@ -7,10 +7,10 @@ package driver
 
 import (
 	"fmt"
-	"time"
 
 	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+    "github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	sakshat "github.com/lwmqwer/SAKS-SDK-GO"
 )
@@ -33,15 +33,13 @@ func (s *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.As
 func (s *Driver) HandleReadCommands(deviceName string, protocols map[string]contract.ProtocolProperties, reqs []dsModels.CommandRequest) (res []*dsModels.CommandValue, err error) {
 	s.lc.Debug(fmt.Sprintf("protocols: %v", protocols))
 
-	now := time.Now().UnixNano()
-
 	for i, req := range reqs {
 		s.lc.Debug(fmt.Sprintf("request: %d resource: %v attributes: %v", i, req.DeviceResourceName, req.Attributes))
 		switch req.DeviceResourceName {
 		case "TemperatureSensor":
 			{
 				value := sakshat.Ds18b20.Temperature(0)
-				cv, _ := dsModels.NewFloat64Value(reqs[0].DeviceResourceName, now, value)
+				cv, _ := dsModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeFloat64, value)
 				res = append(res, cv)
 			}
 		}

@@ -28,7 +28,7 @@ clean:
 	rm coverage.out
 
 docker-build: test ## Build docker image with the manager.
-	docker build -t ${IMG} .
+	docker build -t ${IMG} . --load
 
 docker-push: ## Push docker image with the manager.
 	docker push ${IMG}

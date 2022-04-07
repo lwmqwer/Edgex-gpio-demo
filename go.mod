@@ -1,6 +1,6 @@
 module github.com/lwmqwer/Edgex-gpio-demo
 
-go 1.18
+go 1.16
 
 require (
 	github.com/edgexfoundry/device-sdk-go/v2 v2.1.0
