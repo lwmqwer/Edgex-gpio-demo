@@ -11,13 +11,13 @@ LogLevel = "INFO"
 
 [Service]
 BootTimeout = 30000
-CheckInterval = "10s"
+HealthCheckInterval = "10s"
 Host = "localhost"
 ServerBindAddr = ""  # blank value defaults to Service.Host value
 Port = 59100
 Protocol = "http"
 StartupMsg = "device SAK started"
-Timeout = 5000
+RequestTimeout = "5s"
 ConnectRetries = 10
 Labels = []
 EnableAsyncReadings = false

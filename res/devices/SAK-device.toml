@@ -4,3 +4,6 @@
   Description = "Example of SAK Device"
   Labels = [ "device-sak" ]
   [DeviceList.Protocols]
+  [DeviceList.Protocols.other]
+    Address = "device-SAK"
+
