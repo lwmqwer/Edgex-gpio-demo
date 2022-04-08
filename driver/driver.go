@@ -7,10 +7,11 @@ package driver
 
 import (
 	"fmt"
+	"strings"
 
 	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-    "github.com/edgexfoundry/go-mod-core-contracts/v2/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	sakshat "github.com/lwmqwer/SAKS-SDK-GO"
 )
@@ -40,6 +41,24 @@ func (s *Driver) HandleReadCommands(deviceName string, protocols map[string]cont
 			{
 				value := sakshat.Ds18b20.Temperature(0)
 				cv, _ := dsModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeFloat64, value)
+				res = append(res, cv)
+			}
+		case "LED":
+			{
+				value := sakshat.LEDRow.RowStatus()
+				var out uint8
+				for i := 0; i < 8; i++ {
+					if value[i] {
+						out |= 1 << 0
+					}
+				}
+				cv, _ := dsModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeUint8, out)
+				res = append(res, cv)
+			}
+		case "DigitalDisplay":
+			{
+				value := sakshat.DigitalDisplay.Numbers
+				cv, _ := dsModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeString, strings.Join(value, ""))
 				res = append(res, cv)
 			}
 		}

@@ -20,14 +20,14 @@ deviceResources:
     description: "SAK digital display."
     properties:
         valueType: "String"
-        readWrite: "W"
+        readWrite: "RW"
   -
     name: "LED"
     isHidden: true
     description: "SAK LED"
     properties:
         valueType: "Uint8"
-        readWrite: "W"
+        readWrite: "RW"
   -
 
 deviceCommands:
@@ -40,13 +40,13 @@ deviceCommands:
   -
     name: "DigitalDisplay"
     isHidden: false
-    readWrite: "W"
+    readWrite: "RW"
     resourceOperations:
       - { deviceResource: "DigitalDisplay"}
   -
     name: "LED"
     isHidden: false
-    readWrite: "W"
+    readWrite: "RW"
     resourceOperations:
       - { deviceResource: "LED"}
 
